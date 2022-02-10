@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductMapper">
+
+	<select id="productList" parameterType="String" resultType="ProductDTO">
+		select p_id, p_name, p_catecode, cost, price, p_option, p_description, p_photo, salesyn, regdate
+		from product 
+		where p_catecode = #{p_catecode}
+	</select>
+
+	<select id="productListAll" parameterType="String" resultType="ProductDTO">
+		select p_id, p_name, p_catecode, cost, price, p_option, p_description, p_photo, salesyn, regdate
+		from product 
+	</select>
+
+
+ 	<select id="productRetrieve" parameterType="hashmap" resultType="ProductDTO">
+		select p_id, p_name, p_catecode, cost, price, p_option, p_description, p_photo, salesyn, regdate
+		from product
+		where p_id = #{p_id}
+	</select>
+	
+
+	
+</mapper>

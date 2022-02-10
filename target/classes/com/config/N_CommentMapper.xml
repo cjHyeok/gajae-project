@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="N_CommentMapper">
+
+
+	<select id="N_commentList" parameterType="int" resultType="Not_CommentDTO">
+		select n.n_comm_id, n.userid, n.comm_content, n.wdate, n.n_id, m.username
+		from n_comment n join member m
+		on n.userid = m.userid
+		where n.n_id = #{n_id}
+		order by n.n_comm_id desc
+	</select>
+
+
+	<insert id="N_commentWriteAdd" parameterType="Not_CommentDTO">
+		insert into
+		n_comment (n_comm_id, userid, comm_content, wdate, n_id)
+		values(notice_comment_seq.nextval, #{userid}, #{comm_content}, sysdate, #{n_id})
+	</insert>
+</mapper>

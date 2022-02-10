@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CartMapper">
+
+
+	<insert id="cartAdd" parameterType="CartDTO">
+		insert into cart (c_id, userid, p_id, quantity, indate, p_option )
+		values (cart_seq.nextval, #{userid}, #{p_id}, #{quantity}, sysdate, #{p_option} )
+	</insert>
+
+
+	<select id="cartList" parameterType="MemberDTO" resultType="CartDTO">
+		select c.c_id, c.userid, c.p_id, c.quantity, p.p_name, c.p_option, c.indate, p.p_photo, p.price
+		from cart c join product p
+		on c.p_id = p.p_id
+		where c.userid = '${userid}'
+	</select>
+
+
+	<delete id="cartDelete" parameterType="int">
+		delete
+		from cart
+		where c_id = #{c_id}
+	</delete>
+
+
+	<delete id="delSelCart" parameterType="arraylist">
+		delete
+		from cart
+		where c_id IN
+
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="cartUpdate" parameterType="hashmap">
+		update cart
+		set quantity = #{quantity}
+		where c_id = #{c_id}
+	</update>
+
+
+	<delete id="delAllCart" parameterType="MemberDTO">
+		delete
+		from cart
+		where userid = #{userid}
+	</delete>
+
+
+
+
+
+
+</mapper>

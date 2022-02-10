@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Q_CommentMapper">
+
+	<select id="Q_commentList" parameterType="int" resultType="Que_CommentDTO">
+       select q.q_comm_id, q.userid, q.comm_content, q.wdate , q.q_id , m.username
+       from q_comment q join member m
+       on q.userid = m.userid
+       where q.q_id = #{q_id}
+       order by q.q_comm_id desc
+	</select>
+	
+	
+	<insert id="Q_commentWriteAdd" parameterType="Que_CommentDTO">
+		insert into q_comment (q_comm_id, userid, comm_content, wdate, q_id)
+		values(q_comment_seq.nextval, #{userid}, #{comm_content}, sysdate, #{q_id} )
+	</insert>
+	
+</mapper>

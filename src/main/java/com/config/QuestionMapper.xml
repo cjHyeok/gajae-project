@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="QuestionMapper">
+
+	<select id="questionList" parameterType="int" resultType="QuestionDTO">
+       select q.q_id, q.q_title, q.userid, m.username, q.wdate, q.lookup, q.content
+       from question q join member m 
+       on q.userid = m.userid
+       where q.q_id > 0 
+       order by q.q_id desc
+	</select>
+	
+	<select id="questionReadContent" parameterType="int" resultType="QuestionDTO">
+       select q.q_id, q.q_title, q.userid, m.username, q.wdate, q.lookup, q.content
+       from question q join member m 
+       on q.userid = m.userid
+       where q.q_id = #{q_id}
+	</select>
+	
+	<update id="questionLookupIncrease" parameterType="int" >
+		update question
+		set lookup = lookup + 1
+		where q_id = #{q_id}
+	</update>
+	
+	<insert id="questionWriteAdd" parameterType="QuestionDTO">
+		insert into question (q_id, q_title, userid, lookup, content)
+		values(question_seq.nextval, #{q_title}, #{userid}, 0, #{content})
+	</insert>
+	
+	<delete id="questionContentDel" parameterType="int">
+	    delete
+	    from question
+	    where q_id = #{q_id}
+	</delete>
+	
+	<update id="questionContentUp" parameterType="QuestionDTO">
+		update question
+		set 
+			q_title = #{q_title},
+			wdate = sysdate,
+			content = #{content}
+		where q_id = #{q_id}
+	</update> 
+</mapper>

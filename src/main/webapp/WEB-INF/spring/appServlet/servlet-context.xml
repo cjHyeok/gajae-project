@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<mvc:annotation-driven></mvc:annotation-driven><!-- mvc기본태그 -->
+<mvc:default-servlet-handler/><!-- mvc기본태그 -->
+
+<!-- 직접주소요청시 처리페이지 등록부분 -->
+<mvc:view-controller path="/" view-name="main"/><!-- 요청시 /WEB-INF/views/main.jsp호출 -->
+<mvc:view-controller path="/noticeList" view-name="noticeList"/>
+<mvc:view-controller path="/loginForm" view-name="loginForm"/>
+<mvc:view-controller path="/memberForm" view-name="memberForm"/>
+<mvc:view-controller path="/myPage" view-name="myPage"/>
+
+<mvc:view-controller path="/noticeReadContent" view-name="noticeReadContent"/>
+<mvc:view-controller path="/noticeWritePage" view-name="noticeWritePage"/>
+<mvc:view-controller path="/noticeUpdatePage" view-name="noticeUpdatePage"/>
+
+<mvc:view-controller path="/questionList" view-name="questionList"/>
+<mvc:view-controller path="/questionWritePage" view-name="questionWritePage"/>
+<mvc:view-controller path="/questionReadContent" view-name="questionReadContent"/>
+<mvc:view-controller path="/questionUpdatePage" view-name="questionUpdatePage"/>
+
+<mvc:view-controller path="/reviewList" view-name="reviewList"/>
+<mvc:view-controller path="/reviewWritePage" view-name="reviewWritePage"/>
+<mvc:view-controller path="/reviewReadContent" view-name="reviewReadContent"/>
+<mvc:view-controller path="/reviewUpdatePage" view-name="reviewUpdatePage"/>
+
+<mvc:view-controller path="/productList" view-name="productList"/>
+<mvc:view-controller path="/productRetrieve" view-name="productRetrieve"/>
+
+<mvc:view-controller path="/cartList" view-name="cartList"/>
+
+<mvc:view-controller path="/orderConfirm" view-name="orderConfirm"/>
+<mvc:view-controller path="/orderDone" view-name="orderDone"/>
+
+<mvc:view-controller path="/orderAllConfirm" view-name="orderAllConfirm"/>
+<mvc:view-controller path="/orderAllDone" view-name="orderAllDone"/>
+
+
+
+
+
+<mvc:resources location="/WEB-INF/views/images/" mapping="/images/**"></mvc:resources>
+<mvc:resources location="/WEB-INF/views/css/" mapping="/css/**"></mvc:resources>
+<mvc:resources location="/WEB-INF/views/js/" mapping="/js/**"></mvc:resources>
+
+
+
+<mvc:interceptors>
+	<mvc:interceptor>
+		<mvc:mapping path="/loginCheck/**"/>
+		<ref bean="loginCheckInterceptor"/>
+	</mvc:interceptor>
+</mvc:interceptors>
+
+<bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></bean>
+
+
+
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/views/"></property>
+	<property name="suffix" value=".jsp"></property>
+</bean>
+
+<context:component-scan base-package="com.*"></context:component-scan>
+<!-- @컨트롤러, @서비스, @레포지토리 ,@컴포넌트 자동 빈등록, @autowired활성화 -->
+<!-- 컨트롤러 등록부분 -->
+</beans>

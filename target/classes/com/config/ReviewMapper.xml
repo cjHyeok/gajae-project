@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReviewMapper">
+
+	<select id="reviewList" parameterType="int" resultType="ReviewDTO">
+		select r.r_id, r.r_title, r.userid, m.username, r.wdate, r.lookup, r.content, r.suggestion 
+		from review r join member m
+		on r.userid = m.userid
+		where r.r_id > 0
+		order by r.r_id desc
+	</select>
+	
+	<insert id="reviewWriteAdd" parameterType="ReviewDTO">
+		insert into review (r_id, r_title, userid, lookup, content, suggestion, badsuggestion)
+		values(review_seq.nextval, #{r_title}, #{userid}, 0, #{content}, 0, 0)
+	</insert>
+	
+	<select id="reviewReadContent" parameterType="int" resultType="ReviewDTO">
+       select r.r_id, r.r_title, r.userid, m.username, r.wdate, r.lookup, r.content, r.suggestion, r.badsuggestion
+       from review r join member m 
+       on r.userid = m.userid
+       where r.r_id = #{r_id}
+	</select>
+	
+	<update id="reviewLookupIncrease" parameterType="int" > <!-- 조회 -->
+		update review
+		set lookup = lookup + 1
+		where r_id = #{r_id}
+	</update>
+	
+	<delete id="reviewContentDel" parameterType="int">
+	    delete
+	    from review
+	    where r_id = #{r_id}
+	</delete>
+	
+	<update id="reviewContentUp" parameterType="ReviewDTO">
+		update review
+		set 
+			r_title = #{r_title},
+			wdate = sysdate,
+			content = #{content}
+		where r_id = #{r_id}
+	</update> 
+	
+	
+	<update id = "suggestionUpdate" parameterType="int" > <!-- 좋아요 -->
+		update review
+		set suggestion = suggestion+1 
+		where r_id = #{r_id} 
+	</update>
+	
+	<update id = "badsuggestionUpdate" parameterType="int" > <!-- 싫어요 -->
+		update review
+		set badsuggestion = badsuggestion+1 
+		where r_id = #{r_id} 
+	</update>
+
+
+</mapper>

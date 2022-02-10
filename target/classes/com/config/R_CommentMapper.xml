@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="R_CommentMapper">
+
+	<select id="R_commentList" parameterType="int" resultType="Rev_CommentDTO">
+       select rc.comm_id, rc.userid, rc.comm_content,  rc.wdate , rc.r_id , m.username
+       from rev_comment rc join member m
+       on rc.userid = m.userid
+       where rc.r_id = #{r_id}
+       order by rc.comm_id desc
+	</select>
+	
+	
+	<insert id="R_commentWriteAdd" parameterType="Rev_CommentDTO">
+		insert into rev_comment (comm_id, userid, comm_content, wdate, r_id)
+		values(rev_comment_seq.nextval, #{userid}, #{comm_content}, sysdate, #{r_id} )
+	</insert>
+	
+	
+</mapper>
